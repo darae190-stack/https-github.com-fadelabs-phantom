@@ -1,0 +1,21 @@
+name: Xcode Build
+on:
+  workflow_dispatch:
+    inputs:
+      scheme:
+        required: true
+      action:
+        default: build
+      destination:
+        default: generic/platform=iOS Simulator
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run xcodebuild
+        run: |
+          set -o pipefail
+          xcodebuild -scheme "${{ inputs.scheme }}" \
+            -destination "${{ inputs.destination }}" \
+            ${{ inputs.action }}
